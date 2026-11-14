@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.StudentMapper">
+
+    <!--    根据id更新学生信息-->
+    <update id="update">
+        update student
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="no != null and no != ''">no = #{no},</if>
+            <if test="phone != null and phone !=''">phone = #{phone},</if>
+            <if test="gender != null and phone !=''">gender = #{gender},</if>
+            <if test="degree != null">degree = #{degree},</if>
+            <if test="idCard != null and idCard != ''">id_card = #{idCard},</if>
+            <if test="isCollege != null">is_college = #{isCollege},</if>
+            <if test="address != null and address !=''">address = #{address},</if>
+            <if test="graduationDate != null and address != ''">graduation_date = #{graduationDate},</if>
+            <if test="violationCount != null">violation_count = #{violationCount},</if>
+            <if test="violationScore != null">violation_score = #{violationScore},</if>
+            <if test="clazzId != null">clazz_id = #{clazzId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>where id = #{id}
+    </update>
+
+    <!--    批量删除学生-->
+    <delete id="deleteByIds">
+        delete from student where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--    分页查询学生-->
+    <select id="list" resultType="com.example.pojo.Student">
+        select s.*,c.name clazzName from student s left join clazz c on s.clazz_id = c.id
+        <where>
+            <if test="name != null and name != ''">s.name like concat('%',#{name},'%')</if>
+            <if test="degree != null" >s.degree = #{degree}</if>
+            <if test="clazzId != null">s.clazz_id = #{clazzId}</if>
+        </where>
+    </select>
+
+    <!--    统计班级学生数据-->
+    <select id="countClazzStudentData" resultType="java.util.Map">
+        select count(s.id) num,c.name pos from student s left join clazz c on s.clazz_id = c.id GROUP BY c.name
+    </select>
+
+</mapper>

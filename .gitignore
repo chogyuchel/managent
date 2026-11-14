@@ -1,0 +1,23 @@
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+
+# Node / 前端
+node_modules/
+dist/
+.screenshots/
+.env.local
+*.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# 系统与日志
+.DS_Store
+Thumbs.db
+*.log
+logs/
