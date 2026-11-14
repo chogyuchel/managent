@@ -33,6 +33,8 @@ managent/
 │   │   ├── utils/                 # 工具函数
 │   │   └── views/                 # 页面：登录、部门、员工、班级、学员、统计、日志
 │   └── vite.config.js             # 开发代理 /api → localhost:8080
+├── sql/
+│   └── init.sql                   # 建表语句与演示数据
 └── web-ai/
     └── web-management/            # 后端（Spring Boot）
         └── src/main/
@@ -60,9 +62,17 @@ managent/
 
 ### 1. 准备数据库
 
-创建数据库 `management`，并导入以下业务表：`dept`、`emp`、`emp_expr`、`clazz`、`student`、`operate_log`。
+仓库提供了完整的初始化脚本 `sql/init.sql`，包含 6 张业务表（`dept`、`emp`、`emp_expr`、`clazz`、`student`、`operate_log`）以及演示数据：
 
-> 仓库中暂未附带建表脚本，表结构以 Mapper 中出现的字段为准。
+```bash
+mysql -uroot -p < sql/init.sql
+```
+
+脚本会创建数据库 `management` 并重建表结构，请勿在有生产数据的库上执行。
+
+> ⚠️ 脚本含 `DROP TABLE IF EXISTS`，重复执行会清空原有数据。
+
+演示账号：`admin` / `123456`（其余员工账号见 `emp` 表，密码均为 `123456`）。
 
 ### 2. 配置并启动后端
 
